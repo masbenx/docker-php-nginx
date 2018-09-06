@@ -47,6 +47,11 @@ RUN apt-get update && apt-get install -y software-properties-common curl inetuti
     sed -i 's#.*date.timezone.*#date.timezone=UTC#g' /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
     sed -i 's#.*clear_env.*#clear_env=no#g' /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
 
+RUN apt-get update && apt-get install -y libmcrypt-dev \
+    mysql-client libmagickwand-dev imagemagick --no-install-recomends \
+    php${PHP_VERSION}-imagick \
+    php${PHP_VERSION}-redis \
+
 # Copy NGINX service script
 COPY start-nginx.sh /etc/services.d/nginx/run
 RUN chmod 755 /etc/services.d/nginx/run
