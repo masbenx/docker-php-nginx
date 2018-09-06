@@ -18,6 +18,8 @@ RUN apt-get update && apt-get install -y software-properties-common curl inetuti
     apt-add-repository ppa:nginx/stable -y && \
     LC_ALL=C.UTF-8 apt-add-repository ppa:ondrej/php -y && \
     apt-get update && apt-get install -y \
+    libmcrypt-dev \
+    mysql-client libmagickwand-dev imagemagick \
     php${PHP_VERSION}-fpm \
     php${PHP_VERSION}-curl \
     php${PHP_VERSION}-cli \
@@ -32,6 +34,8 @@ RUN apt-get update && apt-get install -y software-properties-common curl inetuti
     php${PHP_VERSION}-zip \
     php${PHP_VERSION}-sqlite3 \
     php${PHP_VERSION}-apcu \
+    php${PHP_VERSION}-imagick \
+    php${PHP_VERSION}-redis \
     zip \
     unzip \
     nginx && \
@@ -46,11 +50,6 @@ RUN apt-get update && apt-get install -y software-properties-common curl inetuti
     sed -i 's#.*variables_order.*#variables_order=EGPCS#g' /etc/php/${PHP_VERSION}/fpm/php.ini && \
     sed -i 's#.*date.timezone.*#date.timezone=UTC#g' /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
     sed -i 's#.*clear_env.*#clear_env=no#g' /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
-
-RUN apt-get update && apt-get install -y libmcrypt-dev \
-    mysql-client libmagickwand-dev imagemagick --no-install-recomends \
-    php${PHP_VERSION}-imagick \
-    php${PHP_VERSION}-redis \
 
 # Copy NGINX service script
 COPY start-nginx.sh /etc/services.d/nginx/run
